@@ -1,8 +1,15 @@
 import streamlit as st
-import subprocess
-import sys
 
-# Install required packages
+# Import all required packages directly
+import nltk
+from nltk.corpus import reuters, stopwords
+from gensim.models import Word2Vec
+from sklearn.manifold import TSNE
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
+
+# Remove install_packages function and session state check
 def install_packages():
     packages = ['nltk', 'gensim', 'scikit-learn', 'matplotlib', 'pandas', 'numpy']
     for package in packages:
@@ -30,9 +37,10 @@ if st.session_state.packages_installed:
 @st.cache_resource
 def download_nltk_data():
     try:
-        nltk.download('punkt', quiet=True)
-        nltk.download('reuters', quiet=True)
-        nltk.download('stopwords', quiet=True)
+        # Download NLTK data at the start
+        nltk.download('punkt')
+        nltk.download('reuters')
+        nltk.download('stopwords')
         return True
     except Exception as e:
         st.error(f"Failed to download NLTK data: {str(e)}")
